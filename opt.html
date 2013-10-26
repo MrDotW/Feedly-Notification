@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedly Notification</title>
+    <style type="text/css">
+        body{width:640px;margin:10px auto;position: relative;color:#333}
+        section{margin:20px 0}
+        h3{color:#000;margin:3px 0;font-size:0.9em}
+        h2:before{background:url(img/icn_128.png) no-repeat no-repeat;position: absolute;width:128px;height:128px;content:"";opacity:0.1;right:-42px;bottom:15px}
+        p{margin:0;padding: 0;}
+        section div{padding:3px 15px}
+        input[type="range"]{border:1px solid #999;height:8px}
+        p{}
+        label span{color:#666}
+        footer{color:#999; font-size:0.8em; border-top:1px solid #ccc;padding:3px 15px}
+        footer span{
+            float: right;}
+    </style>
+</head>
+<body>
+<h2>Feedly Notification</h2>
+<section id="tim">
+    <h3>Refresh Interval</h3>
+
+    <div>
+        <p>3<input id="time" name="time" type="range" min="3" max="15"/>15</p>
+        <p><span>Update every </span>
+            <output></output>
+            <span> minutes</span></p>
+    </div>
+</section>
+<section id="pro">
+    <h3>HTTPS always</h3>
+
+    <div>
+        <input id="https" type="checkbox"/><label for="https">Enable <span>(May need Feedly Pro)</span></label>
+    </div>
+</section>
+<footer>
+    <a>2013@windlibra</a><span>ver 0.4</span>
+</footer>
+<script src="opt.js"></script>
+</body>
+</html>

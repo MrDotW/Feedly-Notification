@@ -1,0 +1,30 @@
+{
+    "background": {
+        "persistent": false,
+        "scripts": [ "bg.js" ]
+    },
+
+    "browser_action": {
+        "default_icon": "/img/icn_19b.png",
+        "default_title": "Feedly"
+    },
+    "description": "Notifier of unread articles for Feedly.",
+    "icons": {
+        "128": "/img/icn_128.png",
+        "16": "/img/icn_16.png",
+        "48": "/img/icn_48.png"
+    },
+    "content_scripts": [
+        {
+            "matches": ["*://cloud.feedly.com/*"],
+            "js": ["inject.js"],
+            "run_at":"document_idle"
+        }
+    ],
+    "options_page": "opt.html",
+    "manifest_version": 2,
+    "minimum_chrome_version": "29",
+    "name": "Feedly Notification",
+    "permissions": [ "tabs", "alarms", "*://cloud.feedly.com/*", "cookies" ],
+    "version": "0.3"
+}
