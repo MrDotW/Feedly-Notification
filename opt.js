@@ -21,6 +21,14 @@ var bg = chrome.extension.getBackgroundPage(),
         var v = this.checked;
         localStorage.setItem("https", JSON.stringify(v));
         bg.idx = v ? 2 : 1;
+    });
+
+    t = document.getElementById("clkBg");
+    t.checked = bg.bg;
+    t.addEventListener("change", function () {
+        var v = this.checked;
+        localStorage.setItem("clkBg", JSON.stringify(v));
+        bg.bg = v;
     })
 
 })();

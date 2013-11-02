@@ -5,7 +5,10 @@
     },
 
     "browser_action": {
-        "default_icon": "/img/icn_19b.png",
+        "default_icon": {
+            "19":"/img/icn_19b.png",
+            "38":"/img/icn_19b@2x.png"
+        },
         "default_title": "Feedly"
     },
     "description": "Notifier of unread articles for Feedly.",
@@ -21,10 +24,11 @@
             "run_at":"document_idle"
         }
     ],
+    "homepage_url":"https://github.com/MrUU/Feedly-Notification",
     "options_page": "opt.html",
     "manifest_version": 2,
     "minimum_chrome_version": "29",
     "name": "Feedly Notification",
     "permissions": [ "tabs", "alarms", "*://cloud.feedly.com/*", "cookies" ],
-    "version": "0.3"
+    "version": "0.4.3"
 }

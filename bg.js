@@ -3,23 +3,30 @@ var oa = null,
     fdl = ["cloud.feedly.com", "http://cloud.feedly.com/", "https://cloud.feedly.com/", "*//cloud.feedly.com/*"],
     idx = 1,
     tim = 3,
+    bg = false,
     flag = true,
     on = false,
     btn = {
         icn: function () {
-            chrome.browserAction.setIcon({"path": "/img/icn_19" + (flag ? ".png" : "b.png")})
+            chrome.browserAction.setIcon({"path": flag ?
+            {
+                "19": "/img/icn_19.png",
+                "38": "/img/icn_19@2x.png"
+            } : {
+                "19": "/img/icn_19b.png",
+                "38": "/img/icn_19b@2x.png"
+            }})
         },
         bdg: function (i) {
             on || chrome.browserAction.setBadgeText({"text": i ? (i > 99 ? "..." : i.toString()) : ""})
         },
         clk: function () {
             chrome.tabs.query({"url": fdl[idx]}, function (t) {
-                t.length ? chrome.tabs[on ? "update" : "reload"](t[0].id, {"active": true}) : chrome.tabs.create({"url": fdl[idx]});
+                t.length ? chrome.tabs[on ? "update" : "reload"](t[0].id, {"active": true}) : chrome.tabs.create({"url": fdl[idx], "active": !bg});
             });
         }
     },
     oaGet = function () {
-        var ck;
         if (!flag || chrome.cookies.getAll({"domain": fdl[0], "name": "session@cloud"}, function (ck) {
             ck = ck[0];
             if (ck) {
@@ -36,8 +43,6 @@ var oa = null,
             chrome.alarms.clearAll();
             btn.clk();
         }
-        btn.icn();
-
     },
     unGet = function () {
         var xml = new XMLHttpRequest;
@@ -55,6 +60,7 @@ var oa = null,
                     flag = false;
                     oaGet();
             }
+            btn.icn();
         };
         xml.setRequestHeader("$Authorization.feedly", "$FeedlyAuth");
         xml.setRequestHeader("Authorization", oa);
@@ -104,9 +110,8 @@ var oa = null,
 
     idx = JSON.parse(localStorage.getItem("https")) ? 2 : 1;
     tim = JSON.parse(localStorage.getItem("time")) || 3;
+    bg = JSON.parse(localStorage.getItem("clkBg")) || false;
 
     (oa = localStorage.getItem("oa")) ? unGet() : oaGet();
-
-    btn.icn();
 
 })();

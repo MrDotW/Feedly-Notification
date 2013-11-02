@@ -23,7 +23,10 @@ var flag;
         } else {
             chrome.runtime.sendMessage({"id": "on"})
         }
-    })
-    chrome.runtime.sendMessage({"id": "on"});
-    window.addEventListener("beforeunload",function(){chrome.runtime.sendMessage({"id":"off"})})
-})()
+    });
+    window.addEventListener("beforeunload", function () {
+        chrome.runtime.sendMessage({"id": "off"})
+    });
+
+    setTimeout(function(){document[flag] || chrome.runtime.sendMessage({"id": "on"})},3000);
+})();
