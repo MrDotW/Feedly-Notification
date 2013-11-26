@@ -19,7 +19,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["*://cloud.feedly.com/*"],
+            "matches": ["*://feedly.com/*"],
             "js": ["inject.js"],
             "run_at":"document_idle"
         }
@@ -29,6 +29,6 @@
     "manifest_version": 2,
     "minimum_chrome_version": "29",
     "name": "Feedly Notification",
-    "permissions": [ "tabs", "alarms", "*://cloud.feedly.com/*", "cookies" ],
+    "permissions": [ "tabs", "alarms", "*://*.feedly.com/*", "cookies" ],
     "version": "0.4.3"
 }

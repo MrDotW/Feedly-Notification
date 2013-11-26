@@ -1,11 +1,11 @@
 "use strict";
 var oa = null,
-    fdl = ["cloud.feedly.com", "http://cloud.feedly.com/", "https://cloud.feedly.com/", "*//cloud.feedly.com/*"],
+    fdl = ["feedly.com", "http://feedly.com/", "https://feedly.com/", "*//feedly.com/*"],
     idx = 1,
     tim = 3,
     bg = false,
     flag = true,
-    on = false,
+    on ,
     btn = {
         icn: function () {
             chrome.browserAction.setIcon({"path": flag ?
@@ -22,7 +22,7 @@ var oa = null,
         },
         clk: function () {
             chrome.tabs.query({"url": fdl[idx]}, function (t) {
-                t.length ? chrome.tabs[on ? "update" : "reload"](t[0].id, {"active": true}) : chrome.tabs.create({"url": fdl[idx], "active": !bg});
+                t.length ? (on ? chrome.tabs.reload(t[0].id) : chrome.tabs.update(t[0].id, {"active": true})) : chrome.tabs.create({"url": fdl[idx], "active": !bg});
             });
         }
     },
@@ -71,6 +71,7 @@ var oa = null,
 
 (function () {
     btn.bdg("");
+    on = false;
     chrome.runtime.onMessage.addListener(
         function (data) {
 
