@@ -28,15 +28,17 @@ var oa = null,
     },
     oaGet = function () {
         if (!flag || chrome.cookies.getAll({"domain": fdl[0], "name": "session@cloud"}, function (ck) {
-            ck = ck[0];
-            if (ck) {
-                oa = "OAuth " + JSON.parse(ck.value).feedlyToken;
-                localStorage.setItem("oa", oa);
-                unGet();
-                return false
-            } else {
-                return true
-            }
+            ck.some(function (c) {
+                if (c.domain == fdl[0]) {
+                    oa = "OAuth " + JSON.parse(c.value).feedlyToken;
+                    localStorage.setItem("oa", oa);
+                    unGet();
+
+                    return true
+                } else {
+                    return false
+                }
+            })
         })) {
             localStorage.removeItem("oa");
             oa = "";
