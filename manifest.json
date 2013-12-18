@@ -30,5 +30,5 @@
     "minimum_chrome_version": "29",
     "name": "Feedly Notification",
     "permissions": [ "tabs", "alarms", "*://*.feedly.com/*", "cookies"],
-    "version": "0.4.3"
+    "version": "0.4.8"
 }

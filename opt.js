@@ -32,6 +32,14 @@ var bg ,
             var v = this.checked;
             localStorage.setItem("clkBg", JSON.stringify(v));
             bg.bg = v;
+        });
+
+        t = document.getElementById("beta");
+        t.checked = bg.bt;
+        t.addEventListener("change", function () {
+            var v = this.checked;
+            localStorage.setItem("beta", JSON.stringify(v));
+            bg.bt = v;
         })
     });
 

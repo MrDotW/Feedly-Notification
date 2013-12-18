@@ -3,6 +3,7 @@ var oa = null,
     fdl = ["feedly.com", "http://feedly.com/", "https://feedly.com/", "*//feedly.com/*"],
     idx = 1,
     tim = 3,
+    bt = false,
     bg = false,
     flag = true,
     on ,
@@ -21,8 +22,9 @@ var oa = null,
             on || chrome.browserAction.setBadgeText({"text": i ? (i > 99 ? "..." : i.toString()) : ""})
         },
         clk: function () {
-            chrome.tabs.query({"url": fdl[idx]}, function (t) {
-                t.length ? (on ? chrome.tabs.reload(t[0].id) : chrome.tabs.update(t[0].id, {"active": true})) : chrome.tabs.create({"url": fdl[idx], "active": !bg});
+            chrome.tabs.query({"url": fdl[3]}, function (t) {
+                console.log(t);
+                t.length ? (on ? chrome.tabs.reload(t[0].id) : chrome.tabs.update(t[0].id, {"active": true})) : chrome.tabs.create({"url": fdl[idx] + (bt ? "beta" : ""), "active": !bg});
             });
         }
     },
@@ -30,9 +32,12 @@ var oa = null,
         if (!flag || chrome.cookies.getAll({"domain": fdl[0], "name": "session@cloud"}, function (ck) {
             ck.some(function (c) {
                 if (c.domain == fdl[0]) {
-                    oa = "OAuth " + JSON.parse(c.value).feedlyToken;
-                    localStorage.setItem("oa", oa);
-                    unGet();
+                    var t = JSON.parse(c.value);
+                    if (t.hasOwnProperty("feedlyToken")) {
+                        oa = "OAuth " + t.feedlyToken;
+                        localStorage.setItem("oa", oa);
+                        unGet();
+                    }
 
                     return true
                 } else {
@@ -43,7 +48,7 @@ var oa = null,
             localStorage.removeItem("oa");
             oa = "";
             chrome.alarms.clearAll();
-            btn.clk();
+            btn.icn();
         }
     },
     unGet = function () {
@@ -114,6 +119,7 @@ var oa = null,
     idx = JSON.parse(localStorage.getItem("https")) ? 2 : 1;
     tim = JSON.parse(localStorage.getItem("time")) || 3;
     bg = JSON.parse(localStorage.getItem("clkBg")) || false;
+    bt = JSON.parse(localStorage.getItem("beta")) || false;
 
     (oa = localStorage.getItem("oa")) ? unGet() : oaGet();
 
