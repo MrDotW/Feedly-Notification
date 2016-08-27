@@ -4,10 +4,12 @@ var flag;
 
 (function () {
 
-
     window.addEventListener("storage", function (e) {
         if (e.key) {
-            e.key == "session@cloud" && e.newValue && chrome.runtime.sendMessage({"id": "oa", "oa": JSON.parse(e.newValue).feedlyToken});
+            if (e.key == "feedly.session" && e.newValue) {
+                e = JSON.parse(e.newValue);
+                chrome.runtime.sendMessage({"id": "oa", "oa": e.feedlyToken, "i": e.id})
+            }
         } else {
             chrome.runtime.sendMessage({"id": "clr"});
         }
@@ -19,7 +21,8 @@ var flag;
 
     document.addEventListener(tmp + "visibilitychange", function () {
         if (document[flag]) {
-            chrome.runtime.sendMessage({"id": "off", "un": parseInt(document.querySelector("#latesttab_header div").innerHTML) || 0});
+            var d=document.querySelector("#latesttab_header div");
+            chrome.runtime.sendMessage({"id": "off", "un": d?parseInt(d.innerHTML) || 0:0});
         } else {
             chrome.runtime.sendMessage({"id": "on"})
         }
@@ -28,5 +31,7 @@ var flag;
         chrome.runtime.sendMessage({"id": "off"})
     });
 
-    setTimeout(function(){document[flag] || chrome.runtime.sendMessage({"id": "on"})},3000);
+    setTimeout(function () {
+        document[flag] || chrome.runtime.sendMessage({"id": "on"})
+    }, 3000);
 })();
