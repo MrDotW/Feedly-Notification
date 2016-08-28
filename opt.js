@@ -1,50 +1,59 @@
 "use strict";
 var bg ,
-    out = document.getElementsByTagName("output")[0];
+    dom = {
+        out: document.getElementsByTagName("output")[0],
+        btn: document.getElementById("secBtn"),
+        rd: document.getElementsByTagName("select")[0]
+    },
+    ls = function (k, i) {
+        localStorage.setItem(k, JSON.stringify(bg.prf[k] = i))
+        //console.log(k + ":" + i + "," + flag);
+
+    };
 
 (function () {
-    chrome.runtime.getBackgroundPage(function (b) {
+    chrome = chrome.runtime?chrome:browser,
+      chrome.runtime.getBackgroundPage(function (b) {
 
         bg = b;
 
-        out.value = bg.tim;
-        var t = document.getElementById("time");
-        t.value = bg.tim;
-
-
-        t.addEventListener("change", function () {
-            var v = parseInt(this.value, 10);
-            out.value = v;
-            localStorage.setItem("time", JSON.stringify(v));
-            bg.tim = v;
-        });
-        t = document.getElementById("https");
-        t.checked = (bg.idx == 2);
-        t.addEventListener("change", function () {
-            var v = this.checked;
-            localStorage.setItem("https", JSON.stringify(v));
-            bg.idx = v ? 2 : 1;
+        //refresh time
+        var ins = document.getElementById("time");
+        dom.out.innerText = ins.value = bg.prf.time;
+        ins.addEventListener("change", function () {
+            var v = parseInt(this.value);
+            dom.out.innerText = v;
+            ls("time", v);
         });
 
-        t = document.getElementById("clkBg");
-        t.checked = bg.bg;
-        t.addEventListener("change", function () {
-            var v = this.checked;
-            localStorage.setItem("clkBg", JSON.stringify(v));
-            bg.bg = v;
+        //https
+        ins = document.getElementById("https");
+        ins.checked = bg.prf.https;
+        ins.addEventListener("change", function () {
+            ls("https", this.checked);
         });
 
-        t = document.getElementById("beta");
-        t.checked = bg.bt;
-        t.addEventListener("change", function () {
-            var v = this.checked;
-            localStorage.setItem("beta", JSON.stringify(v));
-            bg.bt = v;
-        })
+        //click btn
+        document.querySelector("#secBtn div").addEventListener("change", function (e) {
+            e = e.srcElement;
+            var v = e.value;
+            if (isNaN(v)) {
+                ls("beta", e.checked)
+            } else {
+                ls("btn", parseInt(v));
+                dom.btn.setAttribute("class", v < 2 ? "beta" : "pp");
+                bg.btn.init();
+            }
+        });
+        document.getElementById("beta").checked = bg.prf.beta;
+        document.getElementsByName("btn")[bg.prf.btn].checked = true;
+        dom.btn.setAttribute("class", bg.prf.btn < 2 ? "beta" : "pp");
+
     });
 
-    var t=document.getElementsByTagName("footer")[0],o=chrome.runtime.getManifest();
-    //<a>2013@windlibra</a><span>ver 0.4</span>
-    t.innerHTML="<span>2013@"+ (o.hasOwnProperty("developer")?o.developer.name:"windlibra")+"</span><span>ver "+ o.version+"</span>"
+
+    //footer content
+    var o = chrome.runtime.getManifest();
+    document.getElementsByTagName("footer")[0].innerHTML = "<span>2013, 2014, 2016@" + (o.hasOwnProperty("developer") ? o.developer.name : "windlibra") + "</span><span>ver " + o.version + "</span>"
 
 })();
