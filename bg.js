@@ -1,5 +1,6 @@
 "use strict";
 var
+    chrome = chrome.browserAction?chrome:browser,
     data = {
         oa: null,
         id: null
@@ -59,7 +60,7 @@ var
                 localStorage.removeItem("oa");
                 data.oa = "";
                 data.id = "";
-                chrome.alarms.clearAll();
+                cchrome.alarms && hrome.alarms.clearAll();
                 btn.icn();
             }
         }
@@ -83,8 +84,12 @@ var
                             oaGet();
                     }
                 });
-
-            chrome.alarms.create({"delayInMinutes": prf.time});
+                
+            if (chrome.alarms){
+              chrome.alarms.create({"delayInMinutes": prf.time});
+              }else{
+                setTimeout(unGet,prf.time*60000)
+              }
         }
     },
     JJ = {
@@ -192,7 +197,8 @@ chrome.runtime.onMessage.addListener(
     });
 
 
-chrome.alarms.onAlarm.addListener(unGet);
+chrome.alarms && chrome.alarms.onAlarm.addListener(unGet);
+
 
 (function () {
     btn.bdg("");
