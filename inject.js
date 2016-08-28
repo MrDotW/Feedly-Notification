@@ -3,7 +3,7 @@ var flag;
 
 
 (function () {
-
+    var chrome = chrome.runtime?chrome:browser,
     window.addEventListener("storage", function (e) {
         if (e.key) {
             if (e.key == "feedly.session" && e.newValue) {
