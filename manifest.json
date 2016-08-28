@@ -19,16 +19,18 @@
     },
     "content_scripts": [
         {
+            "exclude_matches":["*://feedly.com/a*.html*","*://feedly.com/community.html*","*://feedly.com/p*.html*"],
             "matches": ["*://feedly.com/*"],
             "js": ["inject.js"],
             "run_at":"document_idle"
         }
     ],
     "homepage_url":"https://github.com/MrUU/Feedly-Notification",
+    "author":"weiiihaooo",
     "options_page": "opt.html",
     "manifest_version": 2,
     "minimum_chrome_version": "29",
     "name": "Feedly Notification",
     "permissions": [ "tabs", "alarms", "*://*.feedly.com/*", "cookies"],
-    "version": "0.4.8"
+    "version": "0.5.3"
 }
